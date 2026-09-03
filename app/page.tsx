@@ -1,8 +1,11 @@
 'use client'
 
+import { useState, type FormEvent } from 'react'
+import { motion, AnimatePresence } from 'motion/react'
 import { Reveal } from '@/components/Reveal'
 import { ComoFuncionaPinned } from '@/components/ComoFuncionaPinned'
 import { Galeria } from '@/components/Galeria'
+import { SmoothScroll } from '@/components/SmoothScroll'
 import {
   LeafIcon,
   StoneIcon,
