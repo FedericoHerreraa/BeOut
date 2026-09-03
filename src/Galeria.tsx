@@ -40,9 +40,6 @@ export function Galeria() {
     const ctx = gsap.context(() => {
       const scrollDistance = () => Math.max(track.scrollWidth - section.clientWidth, 0)
 
-      // Drives the horizontal filmstrip from ordinary vertical scroll,
-      // pinned for the duration — same idea as animation-timeline: view(),
-      // just scoped to this section instead of native horizontal scroll.
       const master = gsap.to(track, {
         x: () => -scrollDistance(),
         ease: 'none',
@@ -56,10 +53,6 @@ export function Galeria() {
         },
       })
 
-      // Each image pans from right to left, but only while its own slide
-      // is actually crossing the viewport — containerAnimation ties the
-      // per-slide trigger to the master horizontal tween instead of the
-      // page's real (vertical) scroll.
       slideRefs.current.forEach((slide, i) => {
         const img = imgRefs.current[i]
         if (!slide || !img) return
