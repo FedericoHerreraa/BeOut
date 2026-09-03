@@ -1,6 +1,7 @@
 import './App.css'
 import { Reveal } from './Reveal'
 import { ComoFuncionaPinned } from './ComoFuncionaPinned'
+import { Galeria } from './Galeria'
 import {
   LeafIcon,
   StoneIcon,
@@ -146,6 +147,13 @@ const comoFuncionaSteps = [
   },
 ]
 
+const desafioCardStyles = [
+  { size: 'w-64 sm:w-56', tilt: 'sm:-rotate-3', shift: 'sm:translate-y-3' },
+  { size: 'w-64 sm:w-64', tilt: 'sm:rotate-2', shift: 'sm:-translate-y-2' },
+  { size: 'w-64 sm:w-60', tilt: 'sm:-rotate-2', shift: 'sm:translate-y-5' },
+  { size: 'w-64 sm:w-52', tilt: 'sm:rotate-3', shift: 'sm:-translate-y-1' },
+]
+
 function Desafios() {
   const challenges = [
     { icon: SproutQuestionIcon, title: 'Un quiz corto', text: 'Un par de preguntas simples que te hacen pensar antes de entrar.' },
@@ -155,7 +163,7 @@ function Desafios() {
   ]
 
   return (
-    <section className="bg-[var(--sand)] px-6 py-20 sm:py-28">
+    <section className="overflow-hidden bg-[var(--sand)] px-6 py-20 sm:py-28">
       <div className="mx-auto max-w-5xl">
         <Reveal className="mx-auto max-w-xl text-center">
           <h2 className="text-3xl sm:text-4xl">Los desafíos</h2>
@@ -164,19 +172,21 @@ function Desafios() {
             piloto automático.
           </p>
         </Reveal>
-        <Reveal className="mt-14 grid gap-5 sm:grid-cols-2" stagger={0.12}>
-          {challenges.map((c, i) => (
-            <div
-              key={c.title}
-              className="rounded-[28px] border border-[var(--stone)]/70 bg-[var(--cream)] p-7"
-              style={{ marginTop: i % 2 === 1 ? '1.25rem' : 0 }}
-            >
-              <c.icon className="h-6 w-6 text-[var(--moss-dark)]" />
-              <h3 className="mt-4 text-xl">{c.title}</h3>
-              <p className="mt-2 text-[var(--ink-soft)]">{c.text}</p>
-            </div>
-          ))}
-        </Reveal>
+        <div className="mt-16 flex flex-col items-center gap-6 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-7">
+          {challenges.map((c, i) => {
+            const style = desafioCardStyles[i]
+            return (
+              <div
+                key={c.title}
+                className={`${style.size} ${style.tilt} ${style.shift} rounded-[28px] bg-[var(--cream)] p-7 text-center shadow-[0_20px_45px_-22px_rgba(56,36,23,0.4)] transition-transform duration-300 hover:rotate-0 hover:-translate-y-1`}
+              >
+                <c.icon className="mx-auto h-6 w-6 text-[var(--moss-dark)]" />
+                <h3 className="mt-4 text-xl">{c.title}</h3>
+                <p className="mt-2 text-[var(--ink-soft)]">{c.text}</p>
+              </div>
+            )
+          })}
+        </div>
       </div>
     </section>
   )
@@ -361,6 +371,7 @@ function App() {
         <Hero />
         <Problema />
         <ComoFuncionaPinned steps={comoFuncionaSteps} />
+        <Galeria />
         <Desafios />
         <PorQueDistinto />
         <Planes />
