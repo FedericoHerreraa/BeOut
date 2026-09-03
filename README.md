@@ -1,78 +1,55 @@
-# React + TypeScript + Vite
+# BeOut — Landing Page
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Landing page de presentación / pre-lanzamiento para **BeOut**, una app de iOS que le pone fricción real a las redes sociales: bloquea las apps que elijas y solo te deja entrar si esperás el tiempo que definiste o resolvés un desafío breve (quiz, escribir una frase a mano, poner el teléfono boca abajo, caminar unos pasos).
 
-Currently, two official plugins are available:
+Esta landing **no es la app** — es una página de una sola sección (single page) pensada para mostrarle la propuesta a clientes/usuarios antes del lanzamiento. El copy, tono y dirección visual completos están en [`BeOut_landing_brief.md`](./BeOut_landing_brief.md).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Estado actual
 
-## React Compiler
+Es una **maqueta 100% frontend**, sin backend ni persistencia de datos — se usa como demo para mostrarle el proyecto a los clientes. Los botones de "lista de espera" todavía no capturan datos reales. Está planeado sumar backend más adelante (waitlist real, autenticación, etc.), pero no es parte de este entregable por ahora.
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+## Stack
 
-Note: This will impact Vite dev & build performances.
-You can also try [the experimental native React Compiler support in plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md#rust-react-compiler) by using `compiler: true` in the plugin options instead of using the Babel plugin.
+- **React 19** + **TypeScript**
+- **Vite** (con el compilador de React vía Babel/Rolldown)
+- **Tailwind CSS v4**
+- **GSAP** + `ScrollTrigger` para las animaciones de scroll (reveals, galería con pin, sección "Cómo funciona" pineada)
+- **Lenis** para el smooth scroll general del sitio, sincronizado con GSAP ScrollTrigger (ver `src/SmoothScroll.tsx`)
+- **Motion** (ex Framer Motion) para micro-interacciones (hover/tap en botones y tarjetas)
+- **shadcn/ui** sobre `@base-ui/react` para componentes base (botones, etc.)
 
-## Expanding the ESLint configuration
+## Requisitos
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Node.js 20 o superior
+- npm
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Instalación y uso
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install       # instala dependencias
+npm run dev       # levanta el servidor de desarrollo (Vite)
+npm run build     # type-checks (tsc) y genera el build de producción
+npm run preview   # sirve el build de producción localmente
+npm run lint      # corre ESLint
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Estructura del proyecto
 
 ```
+src/
+  App.tsx                 # armado de la landing: Nav, Hero, secciones, Footer
+  ComoFuncionaPinned.tsx  # sección "Cómo funciona" con scroll pineado (GSAP)
+  Galeria.tsx             # carrusel horizontal pineado con fotos
+  Reveal.tsx              # wrapper que anima hijos al entrar en viewport
+  SmoothScroll.tsx        # setup de Lenis (smooth scroll) sincronizado con GSAP
+  icons.tsx               # set de íconos SVG propios (hoja, piedra, gota, etc.)
+  lib/utils.ts            # helper cn() (clsx + tailwind-merge)
+  components/ui/          # componentes shadcn/ui
+  index.css               # theming, paleta de colores y fuentes
+public/                   # favicon e imágenes de la galería
+BeOut_landing_brief.md    # brief de diseño y copy del proyecto
+```
+
+## Paleta y diseño
+
+La paleta actual (tonos tierra/marrón — variables `--cream`, `--sand`, `--stone`, `--moss`, `--forest`, `--bark` en `src/index.css`) es la definida para el proyecto; no se debe reemplazar por verdes u otros tonos salvo pedido explícito.

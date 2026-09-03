@@ -1,7 +1,10 @@
 import './App.css'
+import { useState, type FormEvent } from 'react'
+import { motion, AnimatePresence } from 'motion/react'
 import { Reveal } from './Reveal'
 import { ComoFuncionaPinned } from './ComoFuncionaPinned'
 import { Galeria } from './Galeria'
+import { SmoothScroll } from './SmoothScroll'
 import {
   LeafIcon,
   StoneIcon,
@@ -26,12 +29,15 @@ function Nav() {
             BeOut
           </span>
         </div>
-        <a
+        <motion.a
           href="#cierre"
           className="rounded-full bg-[var(--moss)] px-4 py-1.5 text-sm text-[var(--cream)] transition-colors hover:bg-[var(--moss-dark)]"
+          whileHover={{ scale: 1.04 }}
+          whileTap={{ scale: 0.97 }}
+          transition={{ duration: 0.2, ease: 'easeOut' }}
         >
           Sumate
-        </a>
+        </motion.a>
       </header>
     </div>
   )
@@ -84,13 +90,23 @@ function Hero() {
           decidir si de verdad querés entrar.
         </p>
         <div className="reveal reveal-delay-3 mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <a
+          <motion.a
             href="#cierre"
-            className="inline-flex items-center gap-2 rounded-full bg-[var(--moss)] px-7 py-3 text-base text-[var(--cream)] shadow-sm transition-colors hover:bg-[var(--moss-dark)]"
+            className="group inline-flex items-center gap-2 rounded-full bg-[var(--moss)] px-7 py-3 text-base text-[var(--cream)] shadow-sm transition-colors hover:bg-[var(--moss-dark)]"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
           >
             Sumate a la lista de espera
-            <ArrowRightIcon className="h-4 w-4" />
-          </a>
+            <motion.span
+              className="flex"
+              initial={{ x: 0 }}
+              whileHover={{ x: 3 }}
+              transition={{ duration: 0.2, ease: 'easeOut' }}
+            >
+              <ArrowRightIcon className="h-4 w-4" />
+            </motion.span>
+          </motion.a>
           <a
             href="#como-funciona"
             className="inline-flex items-center gap-2 px-4 py-3 text-base text-[var(--ink-soft)] transition-colors hover:text-[var(--ink)]"
@@ -249,14 +265,22 @@ function Planes() {
           </p>
         </Reveal>
         <Reveal className="mt-14 grid gap-6 sm:grid-cols-2" stagger={0.15}>
-          <div className="rounded-[28px] border border-[var(--stone)]/70 bg-[var(--cream)] p-8">
+          <motion.div
+            className="rounded-[28px] border border-[var(--stone)]/70 bg-[var(--cream)] p-8"
+            whileHover={{ y: -4 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+          >
             <h3 className="text-2xl">Gratis</h3>
             <p className="mt-2 text-[var(--ink-soft)]">
               Bloqueá hasta 2 apps y probá cómo se siente.
             </p>
             <p className="mt-6 text-3xl">$0</p>
-          </div>
-          <div className="rounded-[28px] border border-[var(--moss)]/40 bg-[var(--cream)] p-8">
+          </motion.div>
+          <motion.div
+            className="rounded-[28px] border border-[var(--moss)]/40 bg-[var(--cream)] p-8"
+            whileHover={{ y: -4 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+          >
             <h3 className="text-2xl">Completo</h3>
             <p className="mt-2 text-[var(--ink-soft)]">
               Todas las apps que quieras, todos los desafíos.
@@ -264,7 +288,7 @@ function Planes() {
             <p className="mt-6 text-[var(--ink-soft)]">
               Mensual, anual o pago único — vos elegís.
             </p>
-          </div>
+          </motion.div>
         </Reveal>
       </div>
     </section>
@@ -272,25 +296,111 @@ function Planes() {
 }
 
 function CierreCTA() {
+  const [email, setEmail] = useState('')
+  const [error, setError] = useState('')
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle')
+
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      setError('Poné un email válido.')
+      return
+    }
+    setError('')
+    setStatus('submitting')
+    // Todavía no hay backend: esto es una maqueta para mostrar el flujo.
+    window.setTimeout(() => setStatus('success'), 500)
+  }
+
   return (
     <section id="cierre" className="px-6 py-20 sm:py-28">
-      <Reveal className="mx-auto max-w-2xl text-center">
+      <motion.div
+        className="mx-auto max-w-md text-center"
+        initial={{ opacity: 0, y: 32 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.4 }}
+        transition={{ duration: 0.7, ease: 'easeOut' }}
+      >
         <LeafIcon className="mx-auto h-8 w-8 text-[var(--moss)]" />
         <h2 className="mt-6 text-3xl sm:text-4xl">
           Cuando quieras, probá BeOut.
         </h2>
         <p className="mt-5 text-lg text-[var(--ink-soft)]">
-          Sin apuro. Es una app pensada para acompañarte a recuperar tu
-          tiempo, a tu ritmo.
+          Sin apuro. Dejanos tu email y te avisamos apenas esté lista.
         </p>
-        <a
-          href="#"
-          className="mt-9 inline-flex items-center gap-2 rounded-full bg-[var(--moss)] px-8 py-3.5 text-base text-[var(--cream)] shadow-sm transition-colors hover:bg-[var(--moss-dark)]"
-        >
-          Sumate a la lista de espera
-          <ArrowRightIcon className="h-4 w-4" />
-        </a>
-      </Reveal>
+
+        <AnimatePresence mode="wait">
+          {status === 'success' ? (
+            <motion.div
+              key="success"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: 'easeOut' }}
+              className="mt-9 rounded-[28px] border border-[var(--moss)]/30 bg-[var(--sand)]/60 px-6 py-8"
+            >
+              <motion.div
+                initial={{ scale: 0.7, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.4, ease: 'easeOut', delay: 0.1 }}
+              >
+                <LeafIcon className="mx-auto h-6 w-6 text-[var(--moss-dark)]" />
+              </motion.div>
+              <p className="mt-3 text-lg text-[var(--ink)]">
+                Listo, ya estás en la lista. Te escribimos apenas abramos.
+              </p>
+            </motion.div>
+          ) : (
+            <motion.form
+              key="form"
+              onSubmit={handleSubmit}
+              noValidate
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.35, ease: 'easeOut' }}
+              className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row"
+            >
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value)
+                  if (error) setError('')
+                }}
+                placeholder="tu@email.com"
+                aria-label="Tu email"
+                className="w-full max-w-xs rounded-full border-2 border-[var(--stone)] bg-[var(--sand)] px-5 py-3 text-base text-[var(--ink)] shadow-sm outline-none transition-colors placeholder:text-[var(--ink-soft)] focus:border-[var(--moss)] focus:bg-[var(--cream)] sm:w-64"
+              />
+              <motion.button
+                type="submit"
+                disabled={status === 'submitting'}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ duration: 0.2, ease: 'easeOut' }}
+                className="inline-flex shrink-0 items-center gap-2 rounded-full bg-[var(--moss)] px-7 py-3 text-base text-[var(--cream)] shadow-sm transition-colors hover:bg-[var(--moss-dark)] disabled:opacity-70"
+              >
+                {status === 'submitting' ? 'Sumándote…' : 'Sumate a la lista de espera'}
+                <ArrowRightIcon className="h-4 w-4" />
+              </motion.button>
+            </motion.form>
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {error && (
+            <motion.p
+              initial={{ opacity: 0, y: -4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="mt-3 text-sm text-[var(--ink-soft)] italic"
+            >
+              {error}
+            </motion.p>
+          )}
+        </AnimatePresence>
+      </motion.div>
     </section>
   )
 }
@@ -366,6 +476,7 @@ function Footer() {
 function App() {
   return (
     <div className="min-h-screen" style={{ background: 'var(--cream)' }}>
+      <SmoothScroll />
       <Nav />
       <main>
         <Hero />
