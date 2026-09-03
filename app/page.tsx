@@ -1,10 +1,8 @@
-import './App.css'
-import { useState, type FormEvent } from 'react'
-import { motion, AnimatePresence } from 'motion/react'
-import { Reveal } from './Reveal'
-import { ComoFuncionaPinned } from './ComoFuncionaPinned'
-import { Galeria } from './Galeria'
-import { SmoothScroll } from './SmoothScroll'
+'use client'
+
+import { Reveal } from '@/components/Reveal'
+import { ComoFuncionaPinned } from '@/components/ComoFuncionaPinned'
+import { Galeria } from '@/components/Galeria'
 import {
   LeafIcon,
   StoneIcon,
@@ -17,7 +15,7 @@ import {
   ChoosePathIcon,
   ShieldSoftIcon,
   ArrowRightIcon,
-} from './icons'
+} from '@/components/icons'
 
 function Nav() {
   return (
