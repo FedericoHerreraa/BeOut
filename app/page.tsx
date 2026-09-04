@@ -257,41 +257,44 @@ function PorQueDistinto() {
 
 function Planes() {
   return (
-    <section id="planes" className="bg-[var(--sand)] px-6 py-20 sm:py-28">
-      <div className="mx-auto max-w-4xl">
-        <Reveal className="mx-auto max-w-xl text-center">
-          <h2 className="text-3xl sm:text-4xl">Planes</h2>
-          <p className="mt-4 text-lg text-[var(--ink-soft)]">
-            Empezá gratis. Si te sirve, seguís con todo desbloqueado.
-          </p>
-        </Reveal>
-        <Reveal className="mt-14 grid gap-6 sm:grid-cols-2" stagger={0.15}>
-          <motion.div
-            className="rounded-[28px] border border-[var(--stone)]/70 bg-[var(--cream)] p-8"
-            whileHover={{ y: -4 }}
-            transition={{ duration: 0.3, ease: 'easeOut' }}
-          >
-            <h3 className="text-2xl">Gratis</h3>
-            <p className="mt-2 text-[var(--ink-soft)]">
-              Bloqueá hasta 2 apps y probá cómo se siente.
+    <section id="planes">
+      <div className="bg-[var(--sand)] px-6 py-20 sm:py-28">
+        <div className="mx-auto max-w-4xl">
+          <Reveal className="mx-auto max-w-xl text-center">
+            <h2 className="text-3xl sm:text-4xl">Planes</h2>
+            <p className="mt-4 text-lg text-[var(--ink-soft)]">
+              Empezá gratis. Si te sirve, seguís con todo desbloqueado.
             </p>
-            <p className="mt-6 text-3xl">$0</p>
-          </motion.div>
-          <motion.div
-            className="rounded-[28px] border border-[var(--moss)]/40 bg-[var(--cream)] p-8"
-            whileHover={{ y: -4 }}
-            transition={{ duration: 0.3, ease: 'easeOut' }}
-          >
-            <h3 className="text-2xl">Completo</h3>
-            <p className="mt-2 text-[var(--ink-soft)]">
-              Todas las apps que quieras, todos los desafíos.
-            </p>
-            <p className="mt-6 text-[var(--ink-soft)]">
-              Mensual, anual o pago único — vos elegís.
-            </p>
-          </motion.div>
-        </Reveal>
+          </Reveal>
+          <Reveal className="mt-14 grid gap-6 sm:grid-cols-2" stagger={0.15}>
+            <motion.div
+              className="rounded-[28px] border border-[var(--stone)]/70 bg-[var(--cream)] p-8"
+              whileHover={{ y: -4 }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+            >
+              <h3 className="text-2xl">Gratis</h3>
+              <p className="mt-2 text-[var(--ink-soft)]">
+                Bloqueá hasta 2 apps y probá cómo se siente.
+              </p>
+              <p className="mt-6 text-3xl">$0</p>
+            </motion.div>
+            <motion.div
+              className="rounded-[28px] border border-[var(--moss)]/40 bg-[var(--cream)] p-8"
+              whileHover={{ y: -4 }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+            >
+              <h3 className="text-2xl">Completo</h3>
+              <p className="mt-2 text-[var(--ink-soft)]">
+                Todas las apps que quieras, todos los desafíos.
+              </p>
+              <p className="mt-6 text-[var(--ink-soft)]">
+                Mensual, anual o pago único — vos elegís.
+              </p>
+            </motion.div>
+          </Reveal>
+        </div>
       </div>
+      <Wave color="var(--cream)" />
     </section>
   )
 }

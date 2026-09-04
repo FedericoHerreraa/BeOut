@@ -23,6 +23,7 @@ export function ComoFuncionaPinned({ steps }: { steps: Step[] }) {
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setReducedMotion(mq.matches)
   }, [])
 
@@ -35,10 +36,10 @@ export function ComoFuncionaPinned({ steps }: { steps: Step[] }) {
       const panels = panelsRef.current
       const dots = dotsRef.current
 
-      gsap.set(panels.slice(1), { autoAlpha: 0, y: 18 })
-      gsap.set(panels[0], { autoAlpha: 1, y: 0 })
-      gsap.set(dots.slice(1), { backgroundColor: 'var(--stone)' })
-      gsap.set(dots[0], { backgroundColor: 'var(--moss)' })
+      gsap.set(panels.slice(1), { autoAlpha: 0, y: 36, scale: 0.92 })
+      gsap.set(panels[0], { autoAlpha: 1, y: 0, scale: 1 })
+      gsap.set(dots.slice(1), { backgroundColor: 'var(--stone)', scale: 1 })
+      gsap.set(dots[0], { backgroundColor: 'var(--moss)', scale: 1.5 })
       gsap.set(lineRef.current, { scaleY: 0, transformOrigin: 'top' })
 
       const tl = gsap.timeline({
@@ -58,10 +59,15 @@ export function ComoFuncionaPinned({ steps }: { steps: Step[] }) {
       panels.forEach((panel, i) => {
         if (i === 0) return
         const at = i - 1
-        tl.to(panels[i - 1], { autoAlpha: 0, y: -18, duration: 0.4 }, at)
-          .to(dots[i - 1], { backgroundColor: 'var(--stone)', duration: 0.3 }, at)
-          .to(panel, { autoAlpha: 1, y: 0, duration: 0.4 }, at + 0.05)
-          .to(dots[i], { backgroundColor: 'var(--moss)', duration: 0.3 }, at + 0.05)
+        tl.to(panels[i - 1], { autoAlpha: 0, y: -36, scale: 0.92, duration: 0.4 }, at)
+          .to(dots[i - 1], { backgroundColor: 'var(--stone)', scale: 1, duration: 0.3 }, at)
+          .fromTo(
+            panel,
+            { autoAlpha: 0, y: 36, scale: 0.92 },
+            { autoAlpha: 1, y: 0, scale: 1, duration: 0.5, ease: 'back.out(1.7)' },
+            at + 0.05,
+          )
+          .to(dots[i], { backgroundColor: 'var(--moss)', scale: 1.5, duration: 0.3 }, at + 0.05)
       })
     }, section)
 
@@ -89,7 +95,7 @@ export function ComoFuncionaPinned({ steps }: { steps: Step[] }) {
                 </div>
                 <div>
                   <h3 className="text-xl">{step.title}</h3>
-                  <p className="mt-2 text-[var(--ink-soft)]">{step.text}</p>
+                  {/* <p className="mt-2 text-[var(--ink-soft)]">{step.text}</p> */}
                 </div>
               </div>
             ))}
@@ -105,10 +111,10 @@ export function ComoFuncionaPinned({ steps }: { steps: Step[] }) {
         <div className="mx-auto mb-14 max-w-xl text-center">
           <h2 className="text-3xl sm:text-4xl">Cómo funciona</h2>
           <p className="mt-4 text-lg text-[var(--ink-soft)]">
-            Cuatro pasos simples. Scrolleá despacio.
+            Cuatro pasos simples. Scrolleá despacio (por ultima vez).
           </p>
         </div>
-        <div className="grid items-center gap-10 sm:grid-cols-[220px_1fr]">
+        <div className="grid items-center sm:grid-cols-[220px_1fr]">
           <div className="relative flex gap-6 sm:flex-col sm:gap-8">
             <div
               aria-hidden
@@ -140,7 +146,7 @@ export function ComoFuncionaPinned({ steps }: { steps: Step[] }) {
                 ref={(el) => {
                   if (el) panelsRef.current[i] = el
                 }}
-                className="absolute inset-0 flex flex-col justify-center rounded-[32px] border border-[var(--stone)]/50 bg-[var(--sand)] p-8 shadow-[0_24px_60px_-24px_rgba(56,36,23,0.35)] sm:p-10"
+                className="absolute inset-0 flex flex-col justify-center rounded-[32px] border border-[var(--stone)]/50 bg-[var(--sand)]/20 p-8 shadow-[0_24px_60px_-24px_rgba(56,36,23,0.35)] sm:p-10"
               >
                 <step.icon className="h-8 w-8 text-[var(--moss-dark)]" />
                 <h3 className="mt-4 text-2xl">{step.title}</h3>

@@ -22,7 +22,6 @@ const sourcePhotos = [
   },
 ]
 
-// Repeat the set so there's enough slides to actually scroll through.
 const slides = [...sourcePhotos, ...sourcePhotos]
 
 export function Galeria() {
@@ -61,7 +60,7 @@ export function Galeria() {
 
         gsap.fromTo(
           img,
-          { left: '-18%' },
+          { left: '-30%' },
           {
             left: '0%',
             ease: 'none',
@@ -90,14 +89,14 @@ export function Galeria() {
         </p>
       </Reveal>
 
-      <div ref={trackRef} className="mt-14 flex gap-6 will-change-transform">
+      <div ref={trackRef} className="mt-14 flex gap-2 will-change-transform">
         {slides.map((photo, i) => (
           <div
             key={`${photo.src}-${i}`}
             ref={(el) => {
               if (el) slideRefs.current[i] = el
             }}
-            className="relative h-[54vh] w-[38vw] shrink-0 overflow-hidden rounded-[28px] shadow-xl sm:h-[62vh] sm:w-[25vw]"
+            className="relative h-[54vh] w-[38vw] shrink-0 overflow-hidden  sm:h-[62vh] sm:w-[25vw]"
           >
             <img
               ref={(el) => {
@@ -105,8 +104,8 @@ export function Galeria() {
               }}
               src={photo.src}
               alt={photo.alt}
-              className="absolute inset-y-0 h-full w-[108%] object-cover"
-              style={{ left: '-28%' }}
+              className="absolute inset-y-0 h-full w-[160%] object-cover shadow-xl"
+              style={{ left: '-30%' }}
             />
           </div>
         ))}
