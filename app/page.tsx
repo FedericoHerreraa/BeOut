@@ -4,19 +4,15 @@ import { useState, type FormEvent } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { Reveal } from '@/components/Reveal'
 import { ComoFuncionaPinned } from '@/components/ComoFuncionaPinned'
-import { Galeria } from '@/components/Galeria'
 import { SmoothScroll } from '@/components/SmoothScroll'
 import {
   LeafIcon,
   StoneIcon,
-  DropIcon,
   SunIcon,
   FootprintsIcon,
   PencilIcon,
   SproutQuestionIcon,
   PhoneDownIcon,
-  ChoosePathIcon,
-  ShieldSoftIcon,
   ArrowRightIcon,
 } from '@/components/icons'
 
@@ -25,7 +21,7 @@ function Nav() {
     <div className="sticky top-4 z-20 px-4">
       <header className="mx-auto flex max-w-2xl items-center justify-between rounded-full border border-[var(--stone)]/70 bg-[var(--cream)]/90 px-5 py-2.5 shadow-[0_1px_2px_rgba(53,49,42,0.06)] backdrop-blur-sm">
         <div className="flex items-center gap-2 text-[var(--ink)]">
-          <LeafIcon className="h-5 w-5 text-[var(--moss)]" />
+          <img src="/beout-icono.png" alt="" className="h-7 w-7" />
           <span className="text-lg" style={{ fontFamily: 'var(--serif)' }}>
             BeOut
           </span>
@@ -143,24 +139,24 @@ function Problema() {
 
 const comoFuncionaSteps = [
   {
-    icon: ChoosePathIcon,
     title: 'Elegís qué apps bloquear',
-    text: 'Vos decidís: Instagram, TikTok, X, o las que más te distraigan.',
+    text: 'Vos decidís: Instagram, TikTok, X, o las que más te distraigan. Podés sumar o sacar apps de la lista cuando quieras.',
+    chips: ['Sin límite de apps', 'Sumás o sacás cuando quieras', 'Se ajusta en segundos'],
   },
   {
-    icon: ShieldSoftIcon,
     title: 'Se bloquean con la pantalla nativa de iOS',
-    text: 'Usamos las herramientas de Apple, sin trucos raros de por medio.',
+    text: 'Usamos las herramientas de Apple, sin trucos raros de por medio. Nada de perfiles ni permisos invasivos: es Screen Time, prolijo.',
+    chips: ['Sin perfiles', 'Sin permisos invasivos', '100% Screen Time'],
   },
   {
-    icon: SproutQuestionIcon,
     title: 'Si querés entrar antes, resolvés un desafío',
-    text: 'Breve y a propósito: te saca del piloto automático un segundo.',
+    text: 'Breve y a propósito: te saca del piloto automático un segundo. Vos elegís qué tipo de desafío te toca para cada app.',
+    chips: ['Un quiz corto', 'Escribir una frase', 'Teléfono boca abajo', 'Caminar unos pasos'],
   },
   {
-    icon: DropIcon,
     title: 'Se desbloquea, por el tiempo que definiste',
-    text: 'Entrás con intención, no por reflejo. Después, vuelve a cerrarse.',
+    text: 'Entrás con intención, no por reflejo. Después vuelve a cerrarse solo, sin que tengas que acordarte de nada.',
+    chips: ['5 min', '15 min', '30 min', 'lo que definas'],
   },
 ]
 
@@ -180,7 +176,7 @@ function Desafios() {
   ]
 
   return (
-    <section className="overflow-hidden bg-[var(--sand)] px-6 py-20 sm:py-28">
+    <section id="desafios" className="overflow-hidden bg-[var(--sand)] px-6 py-20 sm:py-28">
       <div className="mx-auto max-w-5xl">
         <Reveal className="mx-auto max-w-xl text-center">
           <h2 className="text-3xl sm:text-4xl">Los desafíos</h2>
@@ -317,19 +313,23 @@ function CierreCTA() {
   }
 
   return (
-    <section id="cierre" className="px-6 py-20 sm:py-28">
+    <section id="cierre" className="relative overflow-hidden px-6 py-24 sm:py-32">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute top-1/2 left-1/2 h-[28rem] w-[28rem] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-50 blur-3xl"
+        style={{ background: 'var(--sand)' }}
+      />
       <motion.div
-        className="mx-auto max-w-md text-center"
+        className="relative mx-auto max-w-lg text-center"
         initial={{ opacity: 0, y: 32 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.4 }}
         transition={{ duration: 0.7, ease: 'easeOut' }}
       >
-        <LeafIcon className="mx-auto h-8 w-8 text-[var(--moss)]" />
-        <h2 className="mt-6 text-3xl sm:text-4xl">
-          Cuando quieras, probá BeOut.
+        <h2 className="text-4xl leading-[1.1] sm:text-6xl">
+          Cuando quieras, probá <em className="italic text-[var(--moss-dark)]">BeOut</em>.
         </h2>
-        <p className="mt-5 text-lg text-[var(--ink-soft)]">
+        <p className="mt-6 text-lg text-[var(--ink-soft)] sm:text-xl">
           Sin apuro. Dejanos tu email y te avisamos apenas esté lista.
         </p>
 
@@ -362,7 +362,7 @@ function CierreCTA() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.35, ease: 'easeOut' }}
-              className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row"
+              className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row"
             >
               <input
                 type="email"
@@ -374,7 +374,7 @@ function CierreCTA() {
                 }}
                 placeholder="tu@email.com"
                 aria-label="Tu email"
-                className="w-full max-w-xs rounded-full border-2 border-[var(--stone)] bg-[var(--sand)] px-5 py-3 text-base text-[var(--ink)] shadow-sm outline-none transition-colors placeholder:text-[var(--ink-soft)] focus:border-[var(--moss)] focus:bg-[var(--cream)] sm:w-64"
+                className="w-full max-w-xs rounded-full border-2 border-[var(--stone)] bg-[var(--sand)] px-5 py-3.5 text-base text-[var(--ink)] shadow-sm outline-none transition-colors placeholder:text-[var(--ink-soft)] focus:border-[var(--moss)] focus:bg-[var(--cream)] sm:w-72"
               />
               <motion.button
                 type="submit"
@@ -382,7 +382,7 @@ function CierreCTA() {
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ duration: 0.2, ease: 'easeOut' }}
-                className="inline-flex shrink-0 items-center gap-2 rounded-full bg-[var(--moss)] px-7 py-3 text-base text-[var(--cream)] shadow-sm transition-colors hover:bg-[var(--moss-dark)] disabled:opacity-70"
+                className="inline-flex shrink-0 items-center gap-2 rounded-full bg-[var(--moss)] px-8 py-3.5 text-base text-[var(--cream)] shadow-md transition-colors hover:bg-[var(--moss-dark)] disabled:opacity-70"
               >
                 {status === 'submitting' ? 'Sumándote…' : 'Sumate a la lista de espera'}
                 <ArrowRightIcon className="h-4 w-4" />
@@ -430,7 +430,7 @@ function Faq() {
   ]
 
   return (
-    <section className="bg-[var(--sand)] px-6 py-20 sm:py-28">
+    <section id="faq" className="bg-[var(--sand)] px-6 py-20 sm:py-28">
       <div className="mx-auto max-w-2xl">
         <h2 className="text-center text-3xl sm:text-4xl">Preguntas frecuentes</h2>
         <Reveal className="mt-12 flex flex-col gap-3" stagger={0.08}>
@@ -455,22 +455,75 @@ function Faq() {
 }
 
 function Footer() {
+  const year = new Date().getFullYear()
+
+  const columns = [
+    {
+      title: 'Producto',
+      links: [
+        { label: 'Cómo funciona', href: '#como-funciona' },
+        { label: 'Los desafíos', href: '#desafios' },
+        { label: 'Planes', href: '#planes' },
+        { label: 'Preguntas frecuentes', href: '#faq' },
+      ],
+    },
+    {
+      title: 'Contacto',
+      links: [
+        { label: 'Escribinos', href: 'mailto:[TU EMAIL DE CONTACTO]' },
+        { label: 'Sumate a la lista de espera', href: '#cierre' },
+      ],
+    },
+  ]
+
   return (
-    <footer className="px-6 py-14" style={{ background: 'var(--forest)' }}>
-      <div className="mx-auto flex max-w-5xl flex-col items-center gap-6 text-center sm:flex-row sm:justify-between sm:text-left">
-        <div className="flex items-center gap-2 text-[var(--cream)]">
-          <LeafIcon className="h-5 w-5" />
-          <span style={{ fontFamily: 'var(--serif)' }} className="text-lg">
-            BeOut
-          </span>
+    <footer className="px-6 pt-16 pb-8" style={{ background: 'var(--forest)' }}>
+      <div className="mx-auto max-w-5xl">
+        <div className="grid gap-10 text-center sm:grid-cols-[1.3fr_1fr_1fr] sm:text-left">
+          <div className="flex flex-col items-center sm:items-start">
+            <div className="flex items-center gap-2 text-[var(--cream)]">
+              <img src="/beout-icono.png" alt="" className="h-7 w-7" />
+              <span style={{ fontFamily: 'var(--serif)' }} className="text-lg">
+                BeOut
+              </span>
+            </div>
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-[var(--cream)]/70">
+              Le ponemos un poco de fricción a las apps que más se te van de
+              las manos. Para iPhone.
+            </p>
+          </div>
+
+          {columns.map((col) => (
+            <div key={col.title}>
+              <h3 className="text-sm tracking-wide text-[var(--cream)] uppercase">{col.title}</h3>
+              <ul className="mt-4 flex flex-col items-center gap-3 sm:items-start">
+                {col.links.map((link) => (
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      className="text-sm text-[var(--cream)]/70 transition-colors hover:text-[var(--cream)]"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
-        <div className="flex items-center gap-6 text-sm text-[var(--cream)]/70">
-          <a href="mailto:[TU EMAIL DE CONTACTO]" className="hover:text-[var(--cream)]">
-            Contacto
-          </a>
-          <a href="#" className="hover:text-[var(--cream)]">
-            Privacidad
-          </a>
+
+        <div className="mt-12 h-px bg-[var(--cream)]/15" />
+
+        <div className="mt-6 flex flex-col items-center gap-4 text-sm text-[var(--cream)]/60 sm:flex-row sm:justify-between">
+          <p>&copy; {year} BeOut. Todos los derechos reservados.</p>
+          <div className="flex items-center gap-6">
+            <a href="#" className="hover:text-[var(--cream)]/90">
+              Privacidad
+            </a>
+            <a href="#" className="hover:text-[var(--cream)]/90">
+              Términos
+            </a>
+          </div>
         </div>
       </div>
     </footer>
@@ -485,8 +538,9 @@ function App() {
       <main>
         <Hero />
         <Problema />
+        <Wave color="var(--sand)" />
         <ComoFuncionaPinned steps={comoFuncionaSteps} />
-        <Galeria />
+        <Wave color="var(--sand)" flip />
         <Desafios />
         <PorQueDistinto />
         <Planes />

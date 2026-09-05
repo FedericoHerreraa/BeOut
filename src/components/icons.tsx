@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react'
+
 type IconProps = { className?: string }
 
 const base = {
@@ -25,14 +27,6 @@ export function StoneIcon({ className }: IconProps) {
     <svg {...base} className={className}>
       <path d="M3.5 15.5c0-3 3-5 5.5-6 2-.8 3-2.5 5-3 3-.7 6.5 1.3 6.5 5 0 4-4 7.5-9.5 7.5-4 0-7.5-1.5-7.5-3.5Z" />
       <path d="M8 12.5c1.5-.8 3-.8 4.5 0" />
-    </svg>
-  )
-}
-
-export function DropIcon({ className }: IconProps) {
-  return (
-    <svg {...base} className={className}>
-      <path d="M12 3.5c3 4 6 8 6 11.5a6 6 0 1 1-12 0c0-3.5 3-7.5 6-11.5Z" />
     </svg>
   )
 }
@@ -86,21 +80,60 @@ export function PhoneDownIcon({ className }: IconProps) {
   )
 }
 
-export function ChoosePathIcon({ className }: IconProps) {
+const phoneStroke = {
+  fill: 'none',
+  stroke: 'currentColor',
+  strokeWidth: 1.5,
+  strokeLinecap: 'round' as const,
+  strokeLinejoin: 'round' as const,
+}
+
+function PhoneFrame({ children }: { children: ReactNode }) {
   return (
-    <svg {...base} className={className}>
-      <circle cx="6" cy="12" r="2.3" />
-      <path d="M8.3 12h3.7M12 12c2-3 4-3 5.5-3M12 12c2 3 4 3 5.5 3" />
-      <circle cx="18.3" cy="9" r="1.6" />
-      <circle cx="18.3" cy="15" r="1.6" />
-    </svg>
+    <>
+      <rect x="8" y="6" width="84" height="168" rx="18" {...phoneStroke} />
+      <rect x="38" y="15" width="24" height="4" rx="2" fill="currentColor" stroke="none" opacity="0.6" />
+      {children}
+    </>
   )
 }
 
-export function ShieldSoftIcon({ className }: IconProps) {
+/** Escena ilustrada para cada paso de "Cómo funciona": un teléfono con el detalle concreto de ese paso. */
+export function StepVisual({ step, className }: { step: 0 | 1 | 2 | 3; className?: string }) {
   return (
-    <svg {...base} className={className}>
-      <path d="M12 3.5 5 6v6c0 4.5 3 7.5 7 8.5 4-1 7-4 7-8.5V6l-7-2.5Z" />
+    <svg viewBox="0 0 100 180" className={className}>
+      <PhoneFrame>
+        {step === 0 && (
+          <>
+            <rect x="20" y="34" width="26" height="26" rx="7" {...phoneStroke} />
+            <rect x="54" y="34" width="26" height="26" rx="7" fill="currentColor" opacity="0.22" stroke="currentColor" strokeWidth="1.5" />
+            <rect x="20" y="68" width="26" height="26" rx="7" {...phoneStroke} />
+            <rect x="54" y="68" width="26" height="26" rx="7" {...phoneStroke} />
+          </>
+        )}
+        {step === 1 && (
+          <>
+            <path d="M40 92v-12a10 10 0 0 1 20 0v12" {...phoneStroke} />
+            <rect x="32" y="92" width="36" height="30" rx="7" {...phoneStroke} />
+            <circle cx="50" cy="106" r="2.5" fill="currentColor" stroke="none" />
+            <path d="M50 109v5" {...phoneStroke} />
+          </>
+        )}
+        {step === 2 && (
+          <>
+            <circle cx="50" cy="103" r="19" {...phoneStroke} />
+            <path d="M42 103l6 6 12-13" {...phoneStroke} />
+          </>
+        )}
+        {step === 3 && (
+          <>
+            <path d="M40 92v-9a10 10 0 0 1 17-7" {...phoneStroke} />
+            <rect x="32" y="92" width="36" height="30" rx="7" {...phoneStroke} />
+            <circle cx="50" cy="106" r="2.5" fill="currentColor" stroke="none" />
+            <path d="M50 109v5" {...phoneStroke} />
+          </>
+        )}
+      </PhoneFrame>
     </svg>
   )
 }
