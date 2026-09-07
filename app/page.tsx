@@ -300,7 +300,7 @@ function CierreCTA() {
   const [error, setError] = useState('')
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle')
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
       setError('Poné un email válido.')
@@ -308,8 +308,27 @@ function CierreCTA() {
     }
     setError('')
     setStatus('submitting')
-    // Todavía no hay backend: esto es una maqueta para mostrar el flujo.
-    window.setTimeout(() => setStatus('success'), 500)
+
+    try {
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.trim() }),
+      })
+
+      const data = await res.json()
+
+      if (!res.ok) {
+        setError(data.error || 'Algo salió mal. Intentá de nuevo.')
+        setStatus('idle')
+        return
+      }
+
+      setStatus('success')
+    } catch {
+      setError('No se pudo conectar. Intentá de nuevo.')
+      setStatus('idle')
+    }
   }
 
   return (
